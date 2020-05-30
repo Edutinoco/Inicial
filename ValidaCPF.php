@@ -12,25 +12,22 @@ class ValidaCPF
 
     public function __construct($cpf)
     {
-        /**Troca de caracter improprio - transfiormando apenas
-         * em uma sentenca De: "123.123.123-12" Para: "12312312312"
-         */
 
+        $this->cpf = $cpf;
+
+        $this->limpaCpf($cpf);
+
+    }
+    private function limpaCpf(string $cpf) : string {
         $cpf = str_replace(".", "", $cpf);
         $cpf = str_replace("-", "", $cpf);
         $cpf = str_replace("//", "", $cpf);
         $cpf = str_replace('\\', "", $cpf);
         $cpf = str_replace("@", "", $cpf);
-
-        $this->cpf = $cpf;
-
-
-        $this->Validacao($cpf);
-
+        $this->validacao($cpf);
+        return $cpf;
     }
-
-
-    private function Confere($numeroVerificado)
+    private function confere($numeroVerificado)
     {
         $cpf = $this->cpf;
 
@@ -39,47 +36,43 @@ class ValidaCPF
         }else{
            echo "Invalido";}
     }
-    private function Validacao($cpf)
+    private function validacao($cpf)
     {
-        /** verifica se o CPF contém apenas numeros-(preg_match('/\d+/',$cpf)>0).
-         * Se existe numeros repetido-($cpf != '11111111111') ($cpf!= '00000000000').
-         * Se possui o tamho Correto-(strlen($cpf)==11)).
-         */
+
         if ((preg_match('/\d+/', $cpf) > 0) and
             ($cpf != '11111111111') and
             ($cpf != '00000000000') and (strlen($cpf) == 11)) {
 
 
-            /**  $validacao - Trnasforma o CPF em uma ARRAY-(str_split($this->cpf))*/
+
 
             $validacao = (str_split($this->cpf));
 
 
-            /** Retira os digitos de verificação do CPF Exemplo: De: 123.123.123-12
-             * Para: 123.123.123 */
+
             for ($i = 2; $i >= 1; $i--) {
                 $n = count($validacao);
                 unset($validacao[$n - 1]);
 
             }
-            /** Encontra o primeiro Digito.*/
-            $digito1 = $this->Digito($validacao);
 
-            /**Encontra o segundo Dígito.*/
-            $numeroVerificado = $this->Digito($digito1);
+            $digito1 = $this->digito($validacao);
 
-            /** Converte $numeroVerificado em String */
+
+            $numeroVerificado = $this->digito($digito1);
+
+
             $numeroVerificado = implode("",$numeroVerificado);
 
-            /** Confere os dois números */
-            $this->Confere($numeroVerificado);
+
+            $this->confere($numeroVerificado);
 
         } else{
             echo 'Invalido';}
 
 
     }
-     private function Digito($numero): array {
+     private function digito($numero): array {
          $n = count($numero);
 
          $resultado = array();
