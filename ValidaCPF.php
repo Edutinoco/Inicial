@@ -96,10 +96,11 @@ class ValidaCPF
 
          $somaDiv = array_sum($resultado) / 11;
 
-         if ($somaDiv < 2) {
+         if ((array_sum($resultado) % 11) < 2) {
 
              $digito = 0;
-
+             ($numero[count($numero)] = $digito);
+             return $numero;
 
          } elseif ($somaDiv >= 2) {
 
@@ -109,10 +110,12 @@ class ValidaCPF
 
              $digito = 11 - (ceil(round($frac, 2) * 10));
              $digito = (string)$digito;
+             ($numero[count($numero)] = $digito);
+             return $numero;
          }
 
-        ($numero[count($numero)] = $digito);
-        return $numero;
+
+
 
 
 
