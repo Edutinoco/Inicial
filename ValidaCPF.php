@@ -38,8 +38,8 @@ class ValidaCPF
     }
     private function validacao($cpf)
     {
-
-        if ((preg_match('/\d+/', $cpf) > 0) and
+        //(preg_match('/\d+/', $cpf) > 0)
+        if (ctype_alnum($cpf) and
             ($cpf != '11111111111') and
             ($cpf != '00000000000') and (strlen($cpf) == 11)) {
 
